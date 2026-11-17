@@ -22,8 +22,65 @@ Substitute markdown tables for itemized bullet point definitions.
 
 ---
 # Contents
-[[#I Jupyter]]
+[[#Part I. Jupyter: Beyond Normal Python]]
+- [[#1. Getting Started in IPython and Jupyter]]
+- [[#2. Enhanced Interactive Features]]
+- [[#3. Debugging and Profiling]]
 
+[[#Part II. Introduction to NumPy]]
+- [[#4. Understanding Data Types in Python]]
+- [[#5. The Basics of NumPy Arrays]]
+- [[#6. Computation on NumPy Arrays: Universal Functions]]
+- [[#7. Aggregations: min, max, and Everything in Between]]
+- [[#8. Computation on Arrays: Broadcasting]]
+- [[#9. Comparisons, Masks, and Boolean Logic]]
+- [[#10. Fancy Indexing]]
+- [[#11. Sorting Arrays]]
+- [[#12. Structured Data: NumPy's Structured Arrays]]
+
+[[#Part III. Data Manipulation with Pandas]]
+- [[#13. Introducing Pandas Objects]]
+- [[#14. Data Indexing and Selection]]
+- [[#15. Operating on Data in Pandas]]
+- [[#16. Handling Missing Data]]
+- [[#17. Hierarchical Indexing]]
+- [[#18. Combining Datasets: concat and append]]
+- [[#19. Combining Datasets: merge and join]]
+- [[#20. Aggregation and Grouping]]
+- [[#21. Pivot Tables]]
+- [[#22. Vectorized String Operations]]
+- [[#23. Working with Time Series]]
+- [[#24. High-Performance Pandas: eval and query]]
+
+[[#Part IV. Visualization with Matplotlib]]
+- [[#25. General Matplotlib Tips]]
+- [[#26. Simple Line Plots]]
+- [[#27. Simple Scatter Plots]]
+- [[#28. Density and Contour Plots]]
+- [[#29. Customizing Plot Legends]]
+- [[#30. Customizing Colorbars]]
+- [[#31. Multiple Subplots]]
+- [[#32. Text and Annotation]]
+- [[#33. Customizing Ticks]]
+- [[#34. Customizing Matplotlib: Configurations and Stylesheets]]
+- [[#35. Three-Dimensional Plotting in Matplotlib]]
+- [[#36. Visualization with Seaborn]]
+
+[[#Part V. Machine Learning]]
+- [[#37. What Is Machine Learning?]]
+- [[#38. Introducing Scikit-Learn]]
+- [[#39. Hyperparameters and Model Validation]]
+- [[#40. Feature Engineering]]
+- [[#41. In Depth: Naive Bayes Classification]]
+- [[#42. In Depth: Linear Regression]]
+- [[#43. In Depth: Support Vector Machines]]
+- [[#44. In Depth: Decision Trees and Random Forests]]
+- [[#45. In Depth: Principal Component Analysis]]
+- [[#46. In Depth: Manifold Learning]]
+- [[#47. In Depth: k-Means Clustering]]
+- [[#48. In Depth: Gaussian Mixture Models]]
+- [[#49. In Depth: Kernel Density Estimation]]
+- [[#50. Application: A Face Detection Pipeline]]
 ---
 # I: Jupyter 
 
@@ -304,7 +361,7 @@ np.column_stack([a, b])
 ```
 
 **numpy.r_**  
-Concatenates along `axis=0`. Intuition: row builder. For 1D arrays, joins end-to-end. For 2D arrays, stacks arrays vertically/down rows. The `np.r_` object is index-trick shorthand and also supports slice syntax such as `np.r_[1:5]`.
+Concatenates along `axis=0`. Intuition: row builder. For 1D arrays, joins end-to-end. For 2D arrays, stacks arrays vertically/down rows. The `np.r_` object is index-trick shorthand and also supports slice syntax such as `np.r_[1:5]`. This is a special indexer, not a function $\rightarrow$ use `[]`, not `()`. 
 ```python
 #signature
 numpy.r_ = <numpy.lib._index_tricks_impl.RClass object>
@@ -638,8 +695,28 @@ pd.Series(data=None, index=None, dtype: 'Dtype | None' = None, name=None, copy: 
 
 <div style="border: 1px solid #ffe680; color: white; padding: 5px; font-size: 12px;">⚠️ : Hashability of a tuple (<code>tubple</code>) depends on its contents. </div>
 
+The `Series` revolves around a few primary attributes for basic navigation $\rightarrow$ these attributes are listed below. 
+
+| Attribute / Method | Description                                                                                     |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| `s.index`          | Index labels identifying each element.                                                          |
+| `s.name`           | Name assigned to the Series.                                                                    |
+| `s.dtype`          | Data type of the Series elements.                                                               |
+| `s.shape`          | Tuple containing the number of elements, e.g., `(5,)`.                                          |
+| `s.ndim`           | Number of dimensions (always 1).                                                                |
+| `s.size`           | Total number of elements.                                                                       |
+| `s.empty`          | Whether the Series contains zero elements.                                                      |
+| `s.values`         | NumPy array or array-like representation of the data.                                           |
+| `s.array`          | Underlying pandas ExtensionArray containing the data.                                           |
+| `s.info()`         | Displays index information, non-null count, data type, and memory usage. Method, not attribute. |
+| `s.count()`        | Counts non-null elements.                                                                       |
+| `s.value_counts()` | Counts occurrences of each unique value.                                                        |
+| `s.unique()`       | Returns unique values in order of appearance.                                                   |
+| `s.nunique()`      | Counts unique non-null values.                                                                  |
+| `s.describe()`     | Returns descriptive statistics appropriate to the Series dtype.                                 |
+
 **pandas.DataFrame**  
-A two-dimensional labeled data structure with columns that can hold different data types $\rightarrow$ the primary pandas object.The `data` parameter accepts dictionary-like containers and other tabular inputs. A common input is a dictionary mapping column names to values.
+A two-dimensional labeled data structure with columns that can hold different data types $\rightarrow$ the primary pandas object. The `data` parameter accepts dictionary-like containers and other tabular inputs. A common input is a dictionary mapping column names to values.
 
 The `index` supplies row labels, which must be hashable and match the number of rows.The `columns` parameter supplies column labels. For dictionary input, it selects and orders columns by their keys.
 
@@ -651,7 +728,10 @@ pd.DataFrame(data=None, index: 'Axes | None' = None, columns: 'Axes | None' = No
 
 <div style="border: 1px solid #ffe680; color: white; padding: 5px; font-size: 12px;">⚠️ :  Attribute dot notation is discouraged as columns may contain forbidden keywords. </div>
 
+The DataFrame is a mutable, and size-mutable heterogenous non-hashable two-dimensional data container. In other words, you can reassign columns in-place $\rightarrow$ size-mutability means you can add and remove columns after creation. 
+
 At a low level, the DataFrame is a collection of aligned one-dimensional arrays. Row-wise access is generally discouraged as it requires iterating values across multiple columns, which is memory and compute intensive. Frequent row-wise access suggests restructuring the array is preferable. 
+
 ```python
 #example
 pd.DataFrame({'country': g7, 'population': pops})
@@ -671,6 +751,47 @@ pd.DataFrame(
     columns=['Canada', 'France', 'Germany'],
 )
 ```
+
+**dir(pd.DataFrame)**
+The pandas API constantly changes. To retrieve all the current information on the DataFrame, think of the following snippet. 
+```python
+import pandas as pd
+
+print(pd.__version__)
+
+# Every discoverable attribute, including dunders and internals
+dir(pd.DataFrame)
+
+# Public attributes and methods
+[name for name in dir(pd.DataFrame) if not name.startswith("_")]
+
+# Public callable methods
+[name for name in dir(pd.DataFrame)
+ if not name.startswith("_")
+ and callable(getattr(pd.DataFrame, name))]
+```
+
+The `DataFrame` revolves around a few primary attributes for basic navigation $\rightarrow$ these attributes are listed below. 
+
+| Attribute / Method  | Description                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `df.index`          | Row index labels.                                                                           |
+| `df.columns`        | Column labels.                                                                              |
+| `df.dtypes`         | Data type of each column.                                                                   |
+| `df.shape`          | Tuple containing the number of rows and columns.                                            |
+| `df.ndim`           | Number of dimensions (always 2).                                                            |
+| `df.size`           | Total number of elements (rows × columns).                                                  |
+| `df.empty`          | Whether the DataFrame has zero rows or columns.                                             |
+| `df.values`         | NumPy array representation of the data.                                                     |
+| `df.T`              | Transposed DataFrame (rows ↔ columns).                                                      |
+| `df.info()`         | Displays column names, data types, non-null counts, and memory usage.                       |
+| `df.describe()`     | Summary statistics: count, mean, std, min, quartiles, and max (numeric columns by default). |
+| `df.head(n=5)`      | Returns the first `n` rows.                                                                 |
+| `df.tail(n=5)`      | Returns the last `n` rows.                                                                  |
+| `df.sample(n=1)`    | Returns a random sample of rows.                                                            |
+| `df.nunique()`      | Counts unique values in each column.                                                        |
+| `df.count()`        | Counts non-null values in each column.                                                      |
+| `df.memory_usage()` | Returns memory consumption per column in bytes.                                             |
 
 ---
 ## 14: Data Indexing and Selection
@@ -850,13 +971,15 @@ pandas.MultiIndex(levels=None, codes=None, sortorder=None, names=None, copy=Fals
 
 
 **indexing a MultiIndex**
-Indexing MultiIndex array is signified with tuples for rows and columns (multiIndex arrays require the explicit indexers `loc`, `iloc`):
+Indexing MultiIndex array is signified with tuples for rows and columns. MultiIndex arrays require the explicit indexers `loc`, `iloc`:
 
 - `.loc[(row_indexer),(column_indexer)]`
 
 For each indexer with n label dimensions (levels) you have:
  
 - `.loc[(row_lv1,row_lv2,...,row_lvN),(col_lv1,col_lv2,..., col_levelM)]` 
+
+<div style="border: 1px solid #ffe680; color: white; padding: 5px; font-size: 12px;">⚠️ :  You must use <code>slice(None)</code> if you simply wish to reference the inner index, while leaving the outer index constant. The following, <code>.loc[(:, 'country')</code> will not work. Additionally, you must include the trailing <code>:</code>, as <code>.loc[(slice(None), 'country'), :]</code> or this will fail. As mentioned above, the <code>iloc</code>, and <code>loc</code> indexers must be used on a MultiIndex. </div>
 
 **slicing a MultiIndex array**
 Use `pd.IndexSlice` (conventionally `idx = pd.IndexSlice`), as an indexer for slicing MultiIndex arrays i.e. `.loc[(idx[2013:2014], 'visit2'), idx['Bob':'Dick']]`. 
@@ -1051,7 +1174,7 @@ A `DatetimeIndex` is an aperiodic container for `Timestamp` objects; a container
 <div style="border: 1px solid #ffe680; color: white; padding: 5px; font-size: 12px;">⚠️ :  Because <code>Timestamp</code> specifies a date + time, <code>pd.Timestamp('00:00:00')</code> defaults to the daily time at the present date. All <code>Timestamp</code> objects are fixed relationally to the unix epoch. </div>
 
 
-**2. Period  andPeriodIndex**
+**2. Period  and PeriodIndex**
 A period object represents a single span of time at a time reference + frequency. If you omit a frequency, it will infer through context i.e. `pd.Period('00:00:00')` $\rightarrow$ `Period('1-01-01 00:00:00', 'S')`.
 
 A `PeriodIndex` is a periodic container for `Period` objects; a container of time references by a frequency. If the given values for a `PeriodIndex([values], freq=a)` do not conform to `freq=a`, `PeriodIndex` will attempt to coerce them to the given `freq`, frequency.
@@ -1225,6 +1348,8 @@ DataFrame.query(expr, *, inplace=False, **kwargs)
 
 ---
 ## More...
+**misc functions**
+
 | corrected name                    | purpose                                                                                                                         |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `pd.to_datetime()`                | Converts input to pandas datetime objects                                                                                       |
@@ -1502,6 +1627,31 @@ matplotlib.pyplot.errorbar(x, y, yerr=None, xerr=None, fmt='', *, ecolor=None, e
 - `x` / `y` : Data positions.
 - `xerr` / `yerr` : Horizontal and vertical error sizes. A scalar specifies the same symmetric ± error for every data point.
 
+**categorical scatter plots and legends**
+For direct control over the legend elements of a scatterplot, loop a series of values, which you can set for the colour and label param. 
+```python
+fig, ax = plt.subplots()
+
+colors = {0: 'blue', 1: 'red'}
+
+for gender, group in df.groupby('female'):
+    ax.scatter(
+        group.preTestScore,
+        group.postTestScore,
+        s=group.age * 4.5,
+        color=colors[gender],
+        label='F' if gender == 1 else 'M'
+    )
+
+ax.set(
+    title='PreTestScore vs. PostTestScore by Age',
+    xlabel='PreTestScore',
+    ylabel='PostTestScore'
+)
+
+ax.legend(loc='lower right', edgecolor='k', shadow=True)
+plt.show()
+```
 ---
 ## 28: Density And Contour Plots
 **contour plot**
@@ -1611,11 +1761,14 @@ The `legend` will only take inputs where the `label` param is defined. The way `
 
 For instance, on `PathCollection`, the `label` controls whether the artist is included and what text appears, but the visual legend marker is derived from the artist’s own properties. If no values are passed to legend, then only the values passed to `legend` itself will be specified in the legend graphic. Again, only the values in `label` are passed to the `legend` as labels. 
 
-**passing empty lists:** 
+**passing empty lists** 
 If the information you want in the legend cannot be automatically inferred from the plotted data, you can create dummy plotting objects with empty coordinates and labels. For example, `plt.scatter([], [], s=variable, label='name')` creates a `PathCollection` object with no visible points, but `legend()` can still use it as a legend handle. This method is useful for custom legends, especially marker-size legends, because you can loop through different marker sizes and assign each one a label. For example, `for size in [20, 80, 200]: plt.scatter([], [], s=size, label=f'size={size}')`, followed by `plt.legend()`, will create a legend showing different marker sizes even though no extra points are drawn on the plot.
 
 <div style="border: 1px solid #ffe680; color: white; padding: 5px; font-size: 12px;">⚠️ : You can use an easier alternative method under <code>scatter.legend_elements</code>. </div>
-## CHP30: Colormaps
+
+**legen colours for **
+
+## 30: Colormaps
 **matplotlib.colormaps / matplotlib.pyplot.colormaps**  
 Colormap registry. Use `list(matplotlib.colormaps)` or `plt.colormaps()` to list names.
 
